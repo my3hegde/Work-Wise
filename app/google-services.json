@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "326671959014",
+    "project_id": "firebase-workwise"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:326671959014:android:7e0d86220adb2b73",
+        "android_client_info": {
+          "package_name": "com.allforone.oneforall.workwise"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "326671959014-3neoarg5boui2l1c97s1ab9u5n8jsqug.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.allforone.oneforall.workwise",
+            "certificate_hash": "91b822cbf81fd080c18f7463158f6e44065c9b72"
+          }
+        },
+        {
+          "client_id": "326671959014-6qtd230529smb8ggv7pkbi35bs8boh7a.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDLNLwxs6w57iLZBNgbMv9WPWN0TxGd5Jg"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 1
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

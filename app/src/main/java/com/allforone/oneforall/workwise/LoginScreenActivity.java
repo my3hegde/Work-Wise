@@ -155,7 +155,7 @@ public class LoginScreenActivity extends AppCompatActivity implements AsyncRespo
             Log.d("Ripul: ", "Empty Response received");
             return;
         }
-
+        
         switch(output.trim()){
             case "0": {
                 // User added but no group
@@ -167,13 +167,16 @@ public class LoginScreenActivity extends AppCompatActivity implements AsyncRespo
             case "1": {
                 // User added and group exists
                 // but other user does not exist
+                updateUI(true);
                 Intent signInToWait = new Intent("com.allforone.oneforall.workwise.WaitingForPartner");
                 startActivity(signInToWait);
                 break;
             }
             case "2": {
                 // Group exists and both users exist
-
+                updateUI(true);
+                Intent signInToGroup = new Intent("com.allforone.oneforall.workwise.TaskAddAndViewActivity");
+                startActivity(signInToGroup);
                 break;
             }
             default:

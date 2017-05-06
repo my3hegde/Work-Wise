@@ -13,6 +13,13 @@
         <item>Work</item>
     </string-array>
 
+    <string-array name="task_priorities_array">
+        <item>Low</item>
+        <item>Medium</item>
+        <item>High</item>
+        <item>Critical</item>
+    </string-array>
+
 
 
 </resources>

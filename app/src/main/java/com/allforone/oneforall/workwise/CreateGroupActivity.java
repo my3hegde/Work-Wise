@@ -26,8 +26,8 @@ public class CreateGroupActivity extends Activity implements View.OnClickListene
 
     @Override
     public void onClick(View v){
-        Intent openTabbedView = new Intent("com.allforone.oneforall.workwise.TaskAddAndViewActivity");
-        startActivity(openTabbedView);
+        Intent createGroup = new Intent("com.allforone.oneforall.workwise.TaskAddAndViewActivity");
+        startActivity(createGroup);
     }
 
     @Override

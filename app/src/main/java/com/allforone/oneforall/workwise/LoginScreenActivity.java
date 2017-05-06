@@ -39,6 +39,8 @@ public class LoginScreenActivity extends AppCompatActivity implements GoogleApiC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_screen);
 
+        Log.d("Ripul:","Inside onCreate");
+
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
                 .build();
@@ -50,7 +52,7 @@ public class LoginScreenActivity extends AppCompatActivity implements GoogleApiC
 
         SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
-
+        findViewById(R.id.sign_in_button).setOnClickListener(this);
         mProgressView = findViewById(R.id.login_progress);
     }
 
@@ -101,10 +103,11 @@ public class LoginScreenActivity extends AppCompatActivity implements GoogleApiC
 
     // [START handleSignInResult]
     private void handleSignInResult(GoogleSignInResult result) {
-        Log.d(TAG, "handleSignInResult:" + result.isSuccess());
+        Log.d("Ripul:", "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
+            Log.d("Ripul:","HERE!");
 
             //TODO : create Intent for new Activity - to join existing group or create a new group
 

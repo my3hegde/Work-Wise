@@ -77,13 +77,13 @@ public class LoginScreenActivity extends AppCompatActivity implements AsyncRespo
         super.onStart();
 
         OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-//        if (opr.isDone()) {
-//            // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
-//            // and the GoogleSignInResult will be available instantly.
-//            Log.d(TAG, "Got cached sign-in");
-//            GoogleSignInResult result = opr.get();
-//            handleSignInResult(result);
-//        } else {
+        if (opr.isDone()) {
+            // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
+            // and the GoogleSignInResult will be available instantly.
+            Log.d(TAG, "Got cached sign-in");
+            GoogleSignInResult result = opr.get();
+            handleSignInResult(result);
+        } else {
             // If the user has not previously signed in on this device or the sign-in has expired,
             // this asynchronous branch will attempt to sign in the user silently.  Cross-device
             // single sign-on will occur in this branch.
@@ -95,7 +95,7 @@ public class LoginScreenActivity extends AppCompatActivity implements AsyncRespo
                     handleSignInResult(googleSignInResult);
                 }
             });
-//        }
+        }
     }
 
     @Override
@@ -111,6 +111,7 @@ public class LoginScreenActivity extends AppCompatActivity implements AsyncRespo
 
         // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
         if (requestCode == RC_SIGN_IN) {
+            Log.d("Ripul:", "RequestCode RC_SIGN_IN");
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
         }
@@ -126,11 +127,12 @@ public class LoginScreenActivity extends AppCompatActivity implements AsyncRespo
                 Log.d("Ripul: ", "Loading properties");
                 Properties properties = new Properties();
                 properties.load(getBaseContext().getAssets().open("workwise.properties"));
-                String urlstr = properties.getProperty("server_url") + "adduser";
+                String requestType = "adduser";
+                String urlstr = properties.getProperty("server_url") + requestType;
 
                 asyncTask.delegate = this;
 
-                asyncTask.execute(urlstr,result.getSignInAccount().getEmail())
+                asyncTask.execute(urlstr,requestType,result.getSignInAccount().getEmail())
                         .get();
 
             } catch(IOException ex1){} catch (InterruptedException e) {
@@ -225,7 +227,7 @@ public class LoginScreenActivity extends AppCompatActivity implements AsyncRespo
     public void onConnectionFailed(ConnectionResult connectionResult) {
         // An unresolvable error has occurred and Google APIs (including Sign-In) will not
         // be available.
-        Log.d(TAG, "onConnectionFailed:" + connectionResult);
+        Log.d("Ripul: ", "onConnectionFailed:" + connectionResult);
     }
 
     @Override

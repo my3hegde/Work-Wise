@@ -37,8 +37,45 @@ class HTTPAsyncTask extends AsyncTask<String, Void, String> {
             urlConnection.setRequestMethod("POST");
             urlConnection.setDoOutput(true);
 
-            String data = URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(urls[1], "UTF-8");
-            //String data = URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode("notest@test.com", "UTF-8");
+            String requestType = urls[1];
+            String data = "";
+            switch(requestType){
+                case "adduser":{
+                    data = URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(urls[2], "UTF-8");
+                    break;
+                }
+                case "creategroup":{
+                    data = URLEncoder.encode("user1", "UTF-8") + "=" + URLEncoder.encode(urls[2], "UTF-8");
+                    data += "&" + URLEncoder.encode("user1", "UTF-8") + "=" + URLEncoder.encode(urls[3], "UTF-8");
+                    break;
+                }
+                case "addtask":{
+                    data = URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(urls[2], "UTF-8");
+                    data += "&" + URLEncoder.encode("taskName", "UTF-8") + "=" + URLEncoder.encode(urls[3], "UTF-8");
+                    data += "&" + URLEncoder.encode("tLen", "UTF-8") + "=" + URLEncoder.encode(urls[4], "UTF-8");
+                    data += "&" + URLEncoder.encode("isRepeat", "UTF-8") + "=" + URLEncoder.encode(urls[5], "UTF-8");
+                    data += "&" + URLEncoder.encode("priority", "UTF-8") + "=" + URLEncoder.encode(urls[6], "UTF-8");
+                    data += "&" + URLEncoder.encode("taskType", "UTF-8") + "=" + URLEncoder.encode(urls[7], "UTF-8");
+                    break;
+                }
+                case "getalltask":{
+                    data = URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(urls[2], "UTF-8");
+                    break;
+                }
+                case "getgroupstatus":{
+                    data = URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(urls[2], "UTF-8");
+                    break;
+                }
+                case "gettask":{
+                    data = URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(urls[2], "UTF-8");
+                    break;
+                }
+                case "completedtask":{
+                    data = URLEncoder.encode("id", "UTF-8") + "=" + URLEncoder.encode(urls[2], "UTF-8");
+                    break;
+                }
+            }
+
             Log.d("Ripul: ", "" + data);
 
             OutputStreamWriter outputPost = new OutputStreamWriter (urlConnection.getOutputStream());

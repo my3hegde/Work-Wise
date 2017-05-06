@@ -27,6 +27,7 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.Properties;
 
 
 public class LoginScreenActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,
@@ -112,8 +113,9 @@ public class LoginScreenActivity extends AppCompatActivity implements GoogleApiC
             //Initialise connection to server
             HttpURLConnection urlConnection = null;
             try {
-                getBaseContext().getAssets().open("workwise.properties");
-                URL url = new URL("www.google.com");
+                Properties properties = new Properties();
+                properties.load(getBaseContext().getAssets().open("workwise.properties"));
+                URL url = new URL(properties.getProperty("server_url"));
                 urlConnection = (HttpURLConnection) url.openConnection();
 
                 //InputStream in = new BufferedInputStream(urlConnection.getInputStream());
@@ -196,6 +198,8 @@ public class LoginScreenActivity extends AppCompatActivity implements GoogleApiC
         if (signedIn) {
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
+//            Intent signInToMain = new Intent("CreateGroupActivity");
+//            startActivity(signInToMain);
         } else {
             findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);

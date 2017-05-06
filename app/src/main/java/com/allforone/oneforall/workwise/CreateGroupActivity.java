@@ -56,9 +56,6 @@ public class CreateGroupActivity extends Activity implements View.OnClickListene
                 .get();
 
 
-        Intent createGroup = new Intent("com.allforone.oneforall.workwise.TaskAddAndViewActivity");
-        startActivity(createGroup);
-
     } catch(IOException ex1){}
         catch (InterruptedException e) {
         e.printStackTrace();
@@ -74,12 +71,17 @@ public class CreateGroupActivity extends Activity implements View.OnClickListene
         //of onPostExecute(result) method.
         Log.d("CreateGroupActivity: ", "Response received: " + output);
 
-        if(output.isEmpty()){
+        if(output == null || output.isEmpty()){
             Log.d("CreateGroupActivity: ", "Empty Response received");
             return;
+        } else {
+            Intent createGroup = new Intent("com.allforone.oneforall.workwise.TaskAddAndViewActivity");
+            startActivity(createGroup);
         }
 
     }
+
+
     @Override
     protected void onStart(){
         super.onStart();

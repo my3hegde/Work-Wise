@@ -15,7 +15,7 @@ public class WaitingForPartner extends Activity implements View.OnClickListener 
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.abc_screen_simple);
+        setContentView(R.layout.wait_for_partner);
     }
 
     @Override

@@ -41,16 +41,16 @@ class HTTPAsyncTask extends AsyncTask<String, Void, String> {
             String data = "";
             switch(requestType){
                 case "adduser":{
-                    data = URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(urls[2], "UTF-8");
+                    data = URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(urls[2].trim(), "UTF-8");
                     break;
                 }
                 case "creategroup":{
-                    data = URLEncoder.encode("user1", "UTF-8") + "=" + URLEncoder.encode(urls[2], "UTF-8");
-                    data += "&" + URLEncoder.encode("user1", "UTF-8") + "=" + URLEncoder.encode(urls[3], "UTF-8");
+                    data = URLEncoder.encode("user1", "UTF-8") + "=" + URLEncoder.encode(urls[2].trim(), "UTF-8");
+                    data += "&" + URLEncoder.encode("user2", "UTF-8") + "=" + URLEncoder.encode(urls[3].trim(), "UTF-8");
                     break;
                 }
                 case "addtask":{
-                    data = URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(urls[2], "UTF-8");
+                    data = URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(urls[2].trim(), "UTF-8");
                     data += "&" + URLEncoder.encode("taskName", "UTF-8") + "=" + URLEncoder.encode(urls[3], "UTF-8");
                     data += "&" + URLEncoder.encode("tLen", "UTF-8") + "=" + URLEncoder.encode(urls[4], "UTF-8");
                     data += "&" + URLEncoder.encode("isRepeat", "UTF-8") + "=" + URLEncoder.encode(urls[5], "UTF-8");
@@ -67,7 +67,7 @@ class HTTPAsyncTask extends AsyncTask<String, Void, String> {
                     break;
                 }
                 case "gettask":{
-                    data = URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(urls[2], "UTF-8");
+                    data = URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(urls[2].trim(), "UTF-8");
                     break;
                 }
                 case "completedtask":{

@@ -23,6 +23,10 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.Status;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.BufferedInputStream;
 import java.io.BufferedOutputStream;
 import java.io.BufferedReader;
@@ -35,6 +39,8 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 import java.util.concurrent.ExecutionException;
 
@@ -161,34 +167,64 @@ public class LoginScreenActivity extends AppCompatActivity implements AsyncRespo
             return;
         }
 
-        switch(output.trim()){
-            case "0": {
-                // User added but no group
-                updateUI(true);
-                Intent signInToMain = new Intent("com.allforone.oneforall.workwise.CreateGroupActivity");
-                startActivity(signInToMain);
-                break;
-            }
-            case "1": {
-                // User added and group exists
-                // but other user does not exist
-                updateUI(true);
-                Intent signInToWait = new Intent("com.allforone.oneforall.workwise.WaitingForPartner");
-                startActivity(signInToWait);
-                break;
-            }
-            case "2": {
-                // Group exists and both users exist
-                updateUI(true);
-                Intent signInToGroup = new Intent("com.allforone.oneforall.workwise.TaskAddAndViewActivity");
-                startActivity(signInToGroup);
-                break;
-            }
-            default:
-                Log.d("Ripul: ","Welp");
-                break;
-        }
+        JSONArray mainObject = null;
+        List<ListItem> outputList = new ArrayList<ListItem>();
 
+        if(output.startsWith("[")){
+            // This means we got output as JSON
+            try{
+                mainObject = new JSONArray(output);
+                for(int i=0;i<mainObject.length();i++){
+                    JSONArray taskArray = mainObject.getJSONArray(i);
+                    ListItem item = new ListItem(taskArray.getJSONArray(0).getInt(1),
+                            taskArray.getJSONArray(1).getInt(1),
+                            taskArray.getJSONArray(2).getInt(1),
+                            taskArray.getJSONArray(3).getString(1),
+                            taskArray.getJSONArray(4).getInt(1)
+                    );
+                    outputList.add(item);
+                }
+            }
+            catch (JSONException e) {
+                e.printStackTrace();
+            }
+
+            // For activities that require JSON input, use the object ListItem
+            // present in outputList
+
+            // TODO
+        }
+        else{
+            //output was just a string
+            switch(output.trim()){
+                case "0": {
+                    // User added but no group
+                    updateUI(true);
+                    Intent signInToMain = new Intent("com.allforone.oneforall.workwise.CreateGroupActivity");
+                    startActivity(signInToMain);
+                    break;
+                }
+                case "1": {
+                    // User added and group exists
+                    // but other user does not exist
+                    updateUI(true);
+                    Intent signInToWait = new Intent("com.allforone.oneforall.workwise.WaitingForPartner");
+                    startActivity(signInToWait);
+                    break;
+                }
+                case "2": {
+                    // Group exists and both users exist
+                    updateUI(true);
+                    Intent signInToGroup = new Intent("com.allforone.oneforall.workwise.TaskAddAndViewActivity");
+                    startActivity(signInToGroup);
+                    break;
+                }
+                default: {
+                    Log.d("Ripul: ", "Welp");
+                    break;
+                }
+            }
+        }
     }
 
     // [START signIn]

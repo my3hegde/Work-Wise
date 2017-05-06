@@ -39,8 +39,8 @@ class HTTPAsyncTask extends AsyncTask<String, Void, Boolean> {
             urlConnection.setRequestMethod("POST");
             urlConnection.setDoOutput(true);
 
-            //String data = URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(urls[1], "UTF-8");
-            String data = URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode("notest@test.com", "UTF-8");
+            String data = URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode(urls[1], "UTF-8");
+            //String data = URLEncoder.encode("email", "UTF-8") + "=" + URLEncoder.encode("notest@test.com", "UTF-8");
             Log.d("Ripul: ", "" + data);
 
             OutputStreamWriter outputPost = new OutputStreamWriter (urlConnection.getOutputStream());

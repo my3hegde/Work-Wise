@@ -159,13 +159,16 @@ public class LoginScreenActivity extends AppCompatActivity implements AsyncRespo
         switch(output.trim()){
             case "0": {
                 // User added but no group
-
+                updateUI(true);
+                Intent signInToMain = new Intent("com.allforone.oneforall.workwise.CreateGroupActivity");
+                startActivity(signInToMain);
                 break;
             }
             case "1": {
                 // User added and group exists
                 // but other user does not exist
-
+                Intent signInToWait = new Intent("com.allforone.oneforall.workwise.WaitingForPartner");
+                startActivity(signInToWait);
                 break;
             }
             case "2": {
@@ -177,7 +180,7 @@ public class LoginScreenActivity extends AppCompatActivity implements AsyncRespo
                 Log.d("Ripul: ","Welp");
                 break;
         }
-        updateUI(true);
+
     }
 
     // [START signIn]
@@ -235,8 +238,6 @@ public class LoginScreenActivity extends AppCompatActivity implements AsyncRespo
         if (signedIn) {
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
-            Intent signInToMain = new Intent("com.allforone.oneforall.workwise.CreateGroupActivity");
-            startActivity(signInToMain);
         } else {
             findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.GONE);

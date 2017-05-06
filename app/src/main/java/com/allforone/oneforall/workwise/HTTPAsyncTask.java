@@ -28,7 +28,6 @@ class HTTPAsyncTask extends AsyncTask<String, Void, String> {
     @Override
     protected String doInBackground(String... urls) {
         //Initialise connection to server
-        Properties properties = new Properties();
         HttpURLConnection urlConnection  = null;
         BufferedReader reader=null;
         String line = null;

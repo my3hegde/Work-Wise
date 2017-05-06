@@ -109,6 +109,7 @@ public class LoginScreenActivity extends AppCompatActivity implements GoogleApiC
     // [START handleSignInResult]
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d("Ripul:", "handleSignInResult:" + result.isSuccess());
+        updateUI(true);
         if (result.isSuccess()) {
             //Initialise connection to server
             HttpURLConnection urlConnection = null;
@@ -138,7 +139,7 @@ public class LoginScreenActivity extends AppCompatActivity implements GoogleApiC
 
         } else {
             // Signed out, show unauthenticated UI.
-            updateUI(false);
+            //updateUI(false);
         }
     }
     // [END handleSignInResult]
@@ -198,7 +199,7 @@ public class LoginScreenActivity extends AppCompatActivity implements GoogleApiC
         if (signedIn) {
             findViewById(R.id.sign_in_button).setVisibility(View.GONE);
             findViewById(R.id.sign_out_and_disconnect).setVisibility(View.VISIBLE);
-            Intent signInToMain = new Intent("CreateGroupActivity");
+            Intent signInToMain = new Intent("com.allforone.oneforall.workwise.CreateGroupActivity");
             startActivity(signInToMain);
         } else {
             findViewById(R.id.sign_in_button).setVisibility(View.VISIBLE);

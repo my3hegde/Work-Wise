@@ -28,10 +28,9 @@
 
         <activity
                 android:name=".CreateGroupActivity"
-                android:name=".MainActivity"
                 android:label="@string/app_name">
                 <intent-filter>
-                    <action android:name="name.student.CreateGroupActivity" />
+                    <action android:name="com.allforone.oneforall.workwise.CreateGroupActivity" />
                     <category android:name="android.intent.category.DEFAULT" />
                 </intent-filter>
         </activity>

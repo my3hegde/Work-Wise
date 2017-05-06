@@ -45,6 +45,8 @@ public class LoginScreenActivity extends AppCompatActivity implements AsyncRespo
     private static final String TAG = "LoginScreenActivity";
     private static final int RC_SIGN_IN = 9001;
 
+    public static String sCurrentUserEmail = "";
+
     private GoogleApiClient mGoogleApiClient;
     private View mProgressView;
     HTTPAsyncTask asyncTask =new HTTPAsyncTask();
@@ -132,7 +134,8 @@ public class LoginScreenActivity extends AppCompatActivity implements AsyncRespo
 
                 asyncTask.delegate = this;
 
-                asyncTask.execute(urlstr,requestType,result.getSignInAccount().getEmail())
+                sCurrentUserEmail = result.getSignInAccount().getEmail();
+                asyncTask.execute(urlstr,requestType,sCurrentUserEmail)
                         .get();
 
             } catch(IOException ex1){} catch (InterruptedException e) {
@@ -153,7 +156,7 @@ public class LoginScreenActivity extends AppCompatActivity implements AsyncRespo
         //of onPostExecute(result) method.
         Log.d("Ripul: ", "Response received: " + output);
 
-        if(output.isEmpty()){
+        if(output == null || output.isEmpty()){
             Log.d("Ripul: ", "Empty Response received");
             return;
         }

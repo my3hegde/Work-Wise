@@ -21,10 +21,14 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
+import java.io.BufferedInputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
+import java.net.URL;
 
-/**
- * A login screen that offers login via email/password.
- */
+
 public class LoginScreenActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener {
 
@@ -105,13 +109,31 @@ public class LoginScreenActivity extends AppCompatActivity implements GoogleApiC
     private void handleSignInResult(GoogleSignInResult result) {
         Log.d("Ripul:", "handleSignInResult:" + result.isSuccess());
         if (result.isSuccess()) {
-            // Signed in successfully, show authenticated UI.
-            GoogleSignInAccount acct = result.getSignInAccount();
-            Log.d("Ripul:","HERE!");
+            //Initialise connection to server
+            HttpURLConnection urlConnection = null;
+            try {
+                getBaseContext().getAssets().open("workwise.properties");
+                URL url = new URL("www.google.com");
+                urlConnection = (HttpURLConnection) url.openConnection();
 
-            //TODO : create Intent for new Activity - to join existing group or create a new group
+                //InputStream in = new BufferedInputStream(urlConnection.getInputStream());
+                //readStream(in);
+                // Signed in successfully, show authenticated UI.
+                GoogleSignInAccount acct = result.getSignInAccount();
 
-            updateUI(true);
+
+                //TODO : create Intent for new Activity - to join existing group or create a new group
+
+                updateUI(true);
+            } catch(MalformedURLException ex){
+
+            } catch(IOException ex1){
+
+            } finally {
+                urlConnection.disconnect();
+            }
+
+
         } else {
             // Signed out, show unauthenticated UI.
             updateUI(false);

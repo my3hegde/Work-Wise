@@ -15,18 +15,26 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.Status;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
+import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.Properties;
 
 
@@ -47,6 +55,7 @@ public class LoginScreenActivity extends AppCompatActivity implements GoogleApiC
         Log.d("Ripul:","Inside onCreate");
 
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken("525302177134-rqvcshlf2pgtmlob2pm5o6t7eirfg622.apps.googleusercontent.com")
                 .requestEmail()
                 .build();
 
@@ -107,36 +116,20 @@ public class LoginScreenActivity extends AppCompatActivity implements GoogleApiC
     // [END onActivityResult]
 
     // [START handleSignInResult]
-    private void handleSignInResult(GoogleSignInResult result) {
+    private void handleSignInResult(GoogleSignInResult result){
         Log.d("Ripul:", "handleSignInResult:" + result.isSuccess());
-        updateUI(true);
+        Log.d("Ripul:", " " + result.getStatus().getStatusCode());
         if (result.isSuccess()) {
-            //Initialise connection to server
-            HttpURLConnection urlConnection = null;
-            try {
+            try{
+                Log.d("Ripul: ", "Loading properties");
                 Properties properties = new Properties();
                 properties.load(getBaseContext().getAssets().open("workwise.properties"));
-                URL url = new URL(properties.getProperty("server_url"));
-                urlConnection = (HttpURLConnection) url.openConnection();
-
-                //InputStream in = new BufferedInputStream(urlConnection.getInputStream());
-                //readStream(in);
-                // Signed in successfully, show authenticated UI.
-                GoogleSignInAccount acct = result.getSignInAccount();
+                String urlstr = properties.getProperty("server_url") + "adduser";
+                new HTTPAsyncTask().execute(urlstr,result.getSignInAccount().getEmail());
+            } catch(IOException ex1){}
 
 
-                //TODO : create Intent for new Activity - to join existing group or create a new group
-
-                updateUI(true);
-            } catch(MalformedURLException ex){
-
-            } catch(IOException ex1){
-
-            } finally {
-                urlConnection.disconnect();
-            }
-
-
+            updateUI(true);
         } else {
             // Signed out, show unauthenticated UI.
             //updateUI(false);

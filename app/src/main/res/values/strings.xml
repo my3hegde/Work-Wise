@@ -8,6 +8,11 @@
     <string name="action_disconnect">Disconnected</string>
     <string name="app_title_str">Work Wise</string>
 
+    <string-array name="task_types_array">
+        <item>Home</item>
+        <item>Work</item>
+    </string-array>
+
 
 
 </resources>

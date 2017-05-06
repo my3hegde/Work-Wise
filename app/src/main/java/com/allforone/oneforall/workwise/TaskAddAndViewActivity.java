@@ -5,6 +5,8 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.ImageButton;
 
 public class TaskAddAndViewActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener{
 
@@ -14,6 +16,7 @@ public class TaskAddAndViewActivity extends AppCompatActivity implements TabLayo
     //This is our viewPager
     private ViewPager viewPager;
 
+    private ImageButton mAddTaskButton = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -42,6 +45,15 @@ public class TaskAddAndViewActivity extends AppCompatActivity implements TabLayo
 
         //Adding onTabSelectedListener to swipe views
         tabLayout.addOnTabSelectedListener(this);
+
+        mAddTaskButton = (ImageButton) findViewById(R.id.addButton);
+        mAddTaskButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                CreateTaskDialog newDialog = new CreateTaskDialog(TaskAddAndViewActivity.this);
+                newDialog.show();
+            }
+        });
     }
 
     @Override

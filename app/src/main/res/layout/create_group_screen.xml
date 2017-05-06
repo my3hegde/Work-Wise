@@ -11,7 +11,7 @@
         android:layout_height="wrap_content"
         android:fontFamily="sans-serif"
         android:textStyle="bold"
-        android:text="Enter your partner's email ID:" />
+        android:text="Enter your partner's Gmail ID:" />
 
     <EditText
         android:id="@+id/editText"
@@ -21,8 +21,7 @@
         android:layout_height="wrap_content"
         android:ems="10"
         android:fontFamily="sans-serif"
-        android:textStyle="bold"
-        android:text="partner@example.com" />
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/submit_button"

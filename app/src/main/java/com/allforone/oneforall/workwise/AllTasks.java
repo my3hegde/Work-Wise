@@ -1,6 +1,6 @@
 package com.allforone.oneforall.workwise;
 
-import android.graphics.drawable.Drawable;
+
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,6 +18,7 @@ import java.net.URL;
 public class AllTasks extends Fragment {
 
     //Overriden method onCreateView
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 

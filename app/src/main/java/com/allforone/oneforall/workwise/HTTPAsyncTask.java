@@ -19,20 +19,21 @@ import java.util.Properties;
  * Created by Ricky on 2017-05-06.
  */
 
-class HTTPAsyncTask extends AsyncTask<String, Void, Boolean> {
+class HTTPAsyncTask extends AsyncTask<String, Void, String> {
+    public AsyncResponse delegate = null;
 
     @Override
     protected void onPreExecute() {
         super.onPreExecute();
-
     }
 
     @Override
-    protected Boolean doInBackground(String... urls) {
+    protected String doInBackground(String... urls) {
         //Initialise connection to server
         Properties properties = new Properties();
         HttpURLConnection urlConnection  = null;
         BufferedReader reader=null;
+        String line = null;
         try {
             URL url = new URL(urls[0]);
             urlConnection = (HttpURLConnection) url.openConnection();
@@ -56,7 +57,6 @@ class HTTPAsyncTask extends AsyncTask<String, Void, Boolean> {
 
             reader = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
 
-            String line = null;
             StringBuilder sb = new StringBuilder();
             // Read Server Response
             while((line = reader.readLine()) != null)
@@ -65,7 +65,6 @@ class HTTPAsyncTask extends AsyncTask<String, Void, Boolean> {
                 sb.append(line + "\n");
             }
             line = sb.toString();
-            Log.d("Ripul: ", "Response received: "+ line);
 
             // Signed in successfully, show authenticated UI.
             //GoogleSignInAccount acct = result.getSignInAccount();
@@ -83,10 +82,10 @@ class HTTPAsyncTask extends AsyncTask<String, Void, Boolean> {
             }
             catch(Exception ex) {}
         }
-        return false;
+        return line;
     }
 
-    protected void onPostExecute(Boolean result) {
-
+    protected void onPostExecute(String result) {
+        delegate.processResponse(result);
     }
 }

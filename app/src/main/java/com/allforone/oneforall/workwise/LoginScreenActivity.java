@@ -36,9 +36,10 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.util.Properties;
+import java.util.concurrent.ExecutionException;
 
 
-public class LoginScreenActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener,
+public class LoginScreenActivity extends AppCompatActivity implements AsyncResponse, GoogleApiClient.OnConnectionFailedListener,
         View.OnClickListener {
 
     private static final String TAG = "LoginScreenActivity";
@@ -46,6 +47,7 @@ public class LoginScreenActivity extends AppCompatActivity implements GoogleApiC
 
     private GoogleApiClient mGoogleApiClient;
     private View mProgressView;
+    HTTPAsyncTask asyncTask =new HTTPAsyncTask();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -125,17 +127,58 @@ public class LoginScreenActivity extends AppCompatActivity implements GoogleApiC
                 Properties properties = new Properties();
                 properties.load(getBaseContext().getAssets().open("workwise.properties"));
                 String urlstr = properties.getProperty("server_url") + "adduser";
-                new HTTPAsyncTask().execute(urlstr,result.getSignInAccount().getEmail());
-            } catch(IOException ex1){}
 
+                asyncTask.delegate = this;
 
-            updateUI(true);
+                asyncTask.execute(urlstr,result.getSignInAccount().getEmail())
+                        .get();
+
+            } catch(IOException ex1){} catch (InterruptedException e) {
+                e.printStackTrace();
+            } catch (ExecutionException e) {
+                e.printStackTrace();
+            }
         } else {
             // Signed out, show unauthenticated UI.
             //updateUI(false);
         }
     }
     // [END handleSignInResult]
+
+    @Override
+    public void processResponse(String output){
+        //Here you will receive the result fired from async class
+        //of onPostExecute(result) method.
+        Log.d("Ripul: ", "Response received: " + output);
+
+        if(output.isEmpty()){
+            Log.d("Ripul: ", "Empty Response received");
+            return;
+        }
+
+        switch(output.trim()){
+            case "0": {
+                // User added but no group
+
+                break;
+            }
+            case "1": {
+                // User added and group exists
+                // but other user does not exist
+
+                break;
+            }
+            case "2": {
+                // Group exists and both users exist
+
+                break;
+            }
+            default:
+                Log.d("Ripul: ","Welp");
+                break;
+        }
+        updateUI(true);
+    }
 
     // [START signIn]
     private void signIn() {

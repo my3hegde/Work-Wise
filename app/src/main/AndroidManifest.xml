@@ -25,34 +25,42 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
-                android:name=".CreateGroupActivity"
-                android:label="@string/app_name">
-                <intent-filter>
-                    <action android:name="com.allforone.oneforall.workwise.CreateGroupActivity" />
-                    <category android:name="android.intent.category.DEFAULT" />
-                </intent-filter>
-        </activity>
+            android:name=".CreateGroupActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="com.allforone.oneforall.workwise.CreateGroupActivity" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
         <activity
             android:name=".WaitingForPartner"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="com.allforone.oneforall.workwise.WaitingForPartner" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".TaskAddAndViewActivity"
             android:label="@string/app_name">
             <intent-filter>
                 <action android:name="com.allforone.oneforall.workwise.TaskAddAndViewActivity" />
+
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
+        <activity android:name=".NotificationActivity">
+            android:name=".NotificationActivity"
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="com.allforone.oneforall.workwise.NotificationActivity" />
 
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

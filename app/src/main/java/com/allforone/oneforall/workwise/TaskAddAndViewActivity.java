@@ -1,11 +1,13 @@
 package com.allforone.oneforall.workwise;
 
+import android.content.Intent;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.Button;
 import android.widget.ImageButton;
 
 public class TaskAddAndViewActivity extends AppCompatActivity implements TabLayout.OnTabSelectedListener{
@@ -17,6 +19,8 @@ public class TaskAddAndViewActivity extends AppCompatActivity implements TabLayo
     private ViewPager viewPager;
 
     private ImageButton mAddTaskButton = null;
+    private Button mDemoNotificationButton = null;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,6 +59,13 @@ public class TaskAddAndViewActivity extends AppCompatActivity implements TabLayo
             }
         });
     }
+
+    public void demoButtonClicked(View view) {
+
+        Intent notificationScreen = new Intent(TaskAddAndViewActivity.this, NotificationActivity.class);
+        startActivity(notificationScreen);
+    }
+
 
     @Override
     public void onTabSelected(TabLayout.Tab tab) {

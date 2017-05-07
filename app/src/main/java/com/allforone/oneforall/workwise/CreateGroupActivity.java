@@ -75,8 +75,25 @@ public class CreateGroupActivity extends Activity implements View.OnClickListene
             Log.d("CreateGroupActivity: ", "Empty Response received");
             return;
         } else {
-            Intent createGroup = new Intent("com.allforone.oneforall.workwise.TaskAddAndViewActivity");
-            startActivity(createGroup);
+            switch(output.trim()){
+                case "1": {
+                    // User added and group exists
+                    // but other user does not exist
+                    Intent signInToWait = new Intent("com.allforone.oneforall.workwise.WaitingForPartner");
+                    startActivity(signInToWait);
+                    break;
+                }
+                case "2": {
+                    // Group exists and both users exist
+                    Intent signInToGroup = new Intent("com.allforone.oneforall.workwise.TaskAddAndViewActivity");
+                    startActivity(signInToGroup);
+                    break;
+                }
+                default: {
+                    Log.d("Ripul: ", "Welp");
+                    break;
+                }
+            }
         }
 
     }

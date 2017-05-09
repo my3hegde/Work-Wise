@@ -33,7 +33,6 @@ public class MyTasks extends Fragment implements AsyncResponse {
     private View mMainView = null;
     private ListView mMyTasksList = null;
     private HTTPAsyncTask asyncTask = new HTTPAsyncTask();
-    private HTTPAsyncTask asyncTask1 = new HTTPAsyncTask();
     private List<ListItem> outputList = null;
 
     @Override
@@ -50,7 +49,7 @@ public class MyTasks extends Fragment implements AsyncResponse {
             Log.d("Ripul: ", "Loading properties");
             Properties properties = new Properties();
             properties.load(getContext().getAssets().open("workwise.properties"));
-            String requestType = "getalltask";
+            String requestType = "gettask";
             String urlstr = properties.getProperty("server_url") + requestType;
 
             asyncTask.delegate = this;
@@ -91,8 +90,8 @@ public class MyTasks extends Fragment implements AsyncResponse {
                         ListItem item = new ListItem(taskArray.getJSONArray(0).getInt(1),
                                 taskArray.getJSONArray(1).getInt(1),
                                 taskArray.getJSONArray(2).getInt(1),
-                                taskArray.getJSONArray(3).getString(1),
-                                taskArray.getJSONArray(4).getInt(1)
+                                taskArray.getJSONArray(3).getInt(1),
+                                taskArray.getJSONArray(4).getString(1)
                         );
                         outputList.add(item);
                     }
@@ -106,112 +105,149 @@ public class MyTasks extends Fragment implements AsyncResponse {
                         taskList.add(temp);
                 }
 
-                mMyTasksList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        ListItem taskItem = (ListItem) parent.getItemAtPosition(position);
-
-                    }
-                });
+//                mMyTasksList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//                    @Override
+//                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                        ListItem taskItem = (ListItem) parent.getItemAtPosition(position);
+//
+//                    }
+//                });
                 mMyTasksList.setAdapter(new MyListAdapter(getContext(), R.id.my_tasks_list, taskList));
             }
         }
 
     }
 
+}
 
-    class MyListAdapter extends ArrayAdapter<Task> {
+class Task {
 
-        private ArrayList<Task> taskList;
+    int ID;
+    String name = null;
+    boolean selected = false;
 
-        private class TaskListCheckBoxView {
-            TextView mMyTask;
-            CheckBox mCompleted;
+    public Task(String name, boolean selected, int id) {
+        super();
+        this.name = name;
+        this.selected = selected;
+        this.ID = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isSelected() {
+        return selected;
+    }
+
+    public void setSelected(boolean selected) {
+        this.selected = selected;
+    }
+
+    public int getID() {
+        return ID;
+    }
+
+    public void setID(int id) {
+        this.ID = id;
+    }
+
+}
+
+class MyListAdapter extends ArrayAdapter<Task> implements AsyncResponse {
+
+    private ArrayList<Task> taskList;
+    private HTTPAsyncTask asyncTask1 = new HTTPAsyncTask();
+    private class TaskListCheckBoxView {
+        TextView mMyTask;
+        CheckBox mCompleted;
+    }
+
+    public MyListAdapter(Context context, int listResID, ArrayList<Task> listItems) {
+        super(context, listResID, listItems);
+        this.taskList = new ArrayList<Task>();
+        this.taskList.addAll(listItems);
+    }
+
+    @Override
+    public View getView(int position, View convertView, ViewGroup parent) {
+
+
+        TaskListCheckBoxView myView = null;
+        Log.v("ConvertView", String.valueOf(position));
+
+        if (convertView == null) {
+            LayoutInflater vi = (LayoutInflater) getContext().getSystemService(
+                    Context.LAYOUT_INFLATER_SERVICE);
+            convertView = vi.inflate(R.layout.task_list_checkbox_layout, null);
+
+            myView = new TaskListCheckBoxView();
+            myView.mMyTask = (TextView) convertView.findViewById(R.id.taskTitle);
+            myView.mCompleted = (CheckBox) convertView.findViewById(R.id.completeCheck);
+            convertView.setTag(myView);
+
+            myView.mCompleted.setOnClickListener(new View.OnClickListener() {
+                public void onClick(View v) {
+                    CheckBox cb = (CheckBox) v;
+                    Task task = (Task) cb.getTag();
+                    task.setSelected(cb.isChecked());
+                    handleCompletedTaskResult(task);
+                }
+            });
+
+        } else {
+            myView = (TaskListCheckBoxView) convertView.getTag();
         }
 
-        public MyListAdapter(Context context, int listResID, ArrayList<Task> listItems) {
-            super(context, listResID, listItems);
-            this.taskList = new ArrayList<Task>();
-            this.taskList.addAll(listItems);
-        }
+        Task t = taskList.get(position);
+        myView.mMyTask.setText(t.getName());
+        myView.mCompleted.setChecked(t.isSelected());
+        myView.mCompleted.setTag(t);
 
-        @Override
-        public View getView(int position, View convertView, ViewGroup parent) {
+        return convertView;
 
+    }
 
-            TaskListCheckBoxView myView = null;
-            Log.v("ConvertView", String.valueOf(position));
+    public void handleCompletedTaskResult(Task t) {
 
-            if (convertView == null) {
-                LayoutInflater vi = (LayoutInflater) getContext().getSystemService(
-                        Context.LAYOUT_INFLATER_SERVICE);
-                convertView = vi.inflate(R.layout.task_list_checkbox_layout, null);
+        try {
+            Log.d("Ripul: ", "Loading properties");
+            Properties properties = new Properties();
+            properties.load(getContext().getAssets().open("workwise.properties"));
+            String requestType = "completedtask";
+            String urlstr = properties.getProperty("server_url") + requestType;
 
-                myView = new TaskListCheckBoxView();
-                myView.mMyTask = (TextView) convertView.findViewById(R.id.taskTitle);
-                myView.mCompleted = (CheckBox) convertView.findViewById(R.id.completeCheck);
-                convertView.setTag(myView);
-
-                myView.mCompleted.setOnClickListener(new View.OnClickListener() {
-                    public void onClick(View v) {
-                        CheckBox cb = (CheckBox) v;
-                        Task task = (Task) cb.getTag();
-                        task.setSelected(cb.isChecked());
-                    }
-                });
-
-            } else {
-                myView = (TaskListCheckBoxView) convertView.getTag();
+            asyncTask1.delegate = this;
+            if(!asyncTask1.isCancelled()) {
+                asyncTask1.execute(urlstr, requestType, "" + t.getID())
+                        .get();
             }
 
-            Task t = taskList.get(position);
-            myView.mMyTask.setText(t.getName());
-            myView.mCompleted.setChecked(t.isSelected());
-            myView.mCompleted.setTag(t);
-
-            return convertView;
-
+        } catch (IOException ex1) {
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        } catch (ExecutionException e) {
+            e.printStackTrace();
+        } finally {
+            asyncTask1.cancel(true);
         }
 
     }
 
-    public class Task {
+    @Override
+    public void processResponse(String output) {
+        //Here you will receive the result fired from async class
+        //of onPostExecute(result) method.
+        Log.d("CreateTaskDialog: ", "Response received: " + output);
 
-        int ID;
-        String name = null;
-        boolean selected = false;
-
-        public Task(String name, boolean selected, int id) {
-            super();
-            this.name = name;
-            this.selected = selected;
-            this.ID = id;
+        if (output == null || output.isEmpty()) {
+            Log.d("CreateTaskDialog: ", "Empty Response received");
+            return;
         }
-
-        public String getName() {
-            return name;
-        }
-
-        public void setName(String name) {
-            this.name = name;
-        }
-
-        public boolean isSelected() {
-            return selected;
-        }
-
-        public void setSelected(boolean selected) {
-            this.selected = selected;
-        }
-
-        public int getID() {
-            return ID;
-        }
-
-        public void setID(int id) {
-            this.ID = id;
-        }
-
     }
-
 }

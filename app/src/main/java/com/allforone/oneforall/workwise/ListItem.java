@@ -70,4 +70,12 @@ public class ListItem {
         this.name = name;
         this.id = id;
     }
+
+    public ListItem(int priority, int length, int type, int id, String name) {
+        this.priority = priority;
+        this.length = length;
+        this.type = type;
+        this.name = name;
+        this.id = id;
+    }
 }

@@ -30,7 +30,7 @@ tools:context="com.allforone.oneforall.workwise.TaskAddAndViewActivity">
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:onClick="demoButtonClicked"
-            android:text="Notification Demo" />
+            android:text="Notify me" />
     </RelativeLayout>
 
     <!-- our tablayout to display tabs  -->

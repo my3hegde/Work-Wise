@@ -81,4 +81,14 @@ public class TaskAddAndViewActivity extends AppCompatActivity implements TabLayo
     public void onTabReselected(TabLayout.Tab tab) {
 
     }
+
+    @Override
+    public void onPause(){
+        super.onPause();
+    }
+
+    @Override
+    public void onResume(){
+        super.onResume();
+    }
 }

@@ -76,6 +76,7 @@ class HTTPAsyncTask extends AsyncTask<String, Void, String> {
                 }
             }
 
+            Log.d("Ripul: ", "" + requestType);
             Log.d("Ripul: ", "" + data);
 
             OutputStreamWriter outputPost = new OutputStreamWriter (urlConnection.getOutputStream());
